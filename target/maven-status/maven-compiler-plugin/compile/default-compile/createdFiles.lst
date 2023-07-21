@@ -1,0 +1,3 @@
+org\example\service\FootballScoreBoard.class
+org\example\domain\Match.class
+org\example\LiveFootBallScore.class

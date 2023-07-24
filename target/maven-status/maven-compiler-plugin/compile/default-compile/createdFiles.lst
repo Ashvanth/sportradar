@@ -1,3 +1,5 @@
 org\example\service\FootballScoreBoard.class
+org\example\dao\MatchRepository.class
 org\example\domain\Match.class
+org\example\dao\MatchRepositoryImpl.class
 org\example\LiveFootBallScore.class

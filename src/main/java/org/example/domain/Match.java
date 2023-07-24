@@ -1,12 +1,15 @@
 package org.example.domain;
 
 public class Match {
+
+    private String id;
     private String homeTeam;
     private String awayTeam;
     private int homeScore;
     private int awayScore;
 
     public Match(String homeTeam, String awayTeam) {
+        this.id = generateUniqueId();
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = 0;
@@ -44,5 +47,13 @@ public class Match {
 
     public void setAwayScore(int awayScore) {
         this.awayScore = awayScore;
+    }
+
+    private String generateUniqueId() {
+        return Integer.toString(Math.abs(this.hashCode()));
+    }
+
+    public String getId() {
+        return id;
     }
 }

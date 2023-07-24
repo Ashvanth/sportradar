@@ -1,11 +1,10 @@
 package org.example.dao;
 
 import org.example.domain.Match;
-
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MatchRepositoryImpl implements MatchRepository{
@@ -19,28 +18,43 @@ public class MatchRepositoryImpl implements MatchRepository{
 
     @Override
     public void save(Match match) {
-        matches.put(match.getHomeTeam() + " - " + match.getAwayTeam(), match);
+        matches.put(match.getId(), match);
     }
 
     @Override
     public void delete(String homeTeam, String awayTeam) {
-      String key = matches.entrySet()
-               .stream()
-               .filter(val -> val.getValue().getAwayTeam().equalsIgnoreCase(awayTeam) && val.getValue().getHomeTeam().equalsIgnoreCase(homeTeam))
-               .map(Map.Entry::getKey)
-              .collect(Collectors.joining());
+        Match matchObj = new Match(homeTeam,awayTeam);
+       String key = findMatchId(matchObj);
       matches.remove(key);
     }
 
     @Override
     public void updateScore(Match match) {
-        matches.values().stream()
+        Optional<Match> matchObj = matches.values().stream()
                 .filter(m -> m.getHomeTeam().equals(match.getHomeTeam()) && m.getAwayTeam().equals(match.getAwayTeam()))
-                .findFirst()
-                .ifPresent(t -> t.updateScore(match.getHomeScore(), match.getAwayScore()));
+                .findFirst();
+       if(matchObj.isPresent())
+       {
+           matchObj.get().setHomeScore(match.getHomeScore());
+           matchObj.get().setAwayScore(match.getAwayScore());
+           matches.remove(matchObj.get().getId());
+           matches.put(matchObj.get().getId(),matchObj.get());
+       }
+
     }
     @Override
     public List<Match> findAll() {
         return matches.values().stream().toList();
+    }
+
+    public String findMatchId(Match match) {
+
+        Optional<Match> matchObj = matches.values().stream()
+                .filter(matchDTO2 -> matchDTO2.getHomeTeam().equalsIgnoreCase(match.getHomeTeam())
+                        && matchDTO2.getAwayTeam().equalsIgnoreCase(match.getAwayTeam()))
+                .findFirst();
+        if(matchObj.isPresent()) {
+            return matchObj.get().getId();
+        }else {return null;}
     }
 }

@@ -29,12 +29,12 @@ public class FootballScoreBoardTest {
     @Test
     public void testUpdateGame() {
         scoreBoard.startGame("Germany", "Canada");
-        scoreBoard.updateScore("Germany", "Canada",6,10);
+        scoreBoard.updateScore("Germany", "Canada",7,10);
 
         List<Match> summary = scoreBoard.getSummaryByTotalScore();
         assertEquals("Canada", summary.get(0).getAwayTeam());
         assertEquals("Germany", summary.get(0).getHomeTeam());
-        assertEquals(6,summary.get(0).getHomeScore());
+        assertEquals(7,summary.get(0).getHomeScore());
         assertEquals(10,summary.get(0).getAwayScore());
     }
 
@@ -47,8 +47,8 @@ public class FootballScoreBoardTest {
         scoreBoard.finishGame("Germany","Canada");
 
         List<Match> summary = scoreBoard.getSummaryByTotalScore();
-        assertNotEquals("Canada", summary.get(0).getAwayTeam());
         assertNotEquals("Germany", summary.get(0).getHomeTeam());
+        assertNotEquals("Canada", summary.get(0).getAwayTeam());
         assertEquals("Spain",summary.get(0).getHomeTeam());
         assertEquals("Brazil",summary.get(0).getAwayTeam());
     }

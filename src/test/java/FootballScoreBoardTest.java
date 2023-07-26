@@ -42,7 +42,6 @@ public class FootballScoreBoardTest {
     public void testFinishGame() {
         scoreBoard.startGame("Germany", "Canada");
         scoreBoard.startGame("Spain", "Brazil");
-        scoreBoard.startGame("Italy", "France");
         scoreBoard.updateScore("Germany", "Canada",5,10);
         scoreBoard.finishGame("Germany","Canada");
 

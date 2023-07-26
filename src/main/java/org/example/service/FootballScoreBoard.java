@@ -3,6 +3,8 @@ package org.example.service;
 
 import org.example.dao.MatchRepositoryImpl;
 import org.example.domain.Match;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,8 +22,13 @@ public class FootballScoreBoard {
     }
 
     public void startGame(String homeTeam, String awayTeam) {
-        Match match = new Match(homeTeam, awayTeam);
-        matchRepository.save(match);
+        try {
+            Match match = new Match(homeTeam, awayTeam);
+            matchRepository.save(match);
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void finishGame(String homeTeam, String awayTeam) {
@@ -37,10 +44,16 @@ public class FootballScoreBoard {
 
 
     public List<Match> getSummaryByTotalScore() {
+        try{
        List<Match> matchList = matchRepository.findAll();
        return matchList.stream()
                 .sorted(Comparator.comparingInt(Match::getTotalScore).reversed().thenComparing(matches::indexOf))
                 .collect(Collectors.toList());
+    }catch (SQLException e)
+        {
+        e.printStackTrace();
+        }
+        return null;
     }
 
 }

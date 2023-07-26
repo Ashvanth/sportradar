@@ -1,11 +1,12 @@
 package org.example.dao;
 
 import org.example.domain.Match;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class MatchRepositoryImpl implements MatchRepository{
 
@@ -17,7 +18,7 @@ public class MatchRepositoryImpl implements MatchRepository{
     }
 
     @Override
-    public void save(Match match) {
+    public void save(Match match) throws SQLException {
         matches.put(match.getId(), match);
     }
 
@@ -43,7 +44,7 @@ public class MatchRepositoryImpl implements MatchRepository{
 
     }
     @Override
-    public List<Match> findAll() {
+    public List<Match> findAll() throws SQLException{
         return matches.values().stream().toList();
     }
 
